@@ -36,7 +36,7 @@
 <header data-am-widget="header"
         class="am-header am-header-default">
     <div class="am-header-left am-header-nav">
-        <a href="/hc/appointment" >
+        <a href="/hc/appointment">
             <i class="am-header-icon am-icon-chevron-left"></i>
         </a>
     </div>
@@ -79,6 +79,9 @@
                     <input type="hidden" name="cardNum" value="${cardNum}"/>
                     <input type="hidden" name="token" value="${newToken}"/>
                     <input type="hidden" name="userWx" value="">
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
                 </div>
                 <div class="am-form-group">
                     <div class="am-u-sm-12">
@@ -111,20 +114,20 @@
         var phone = $("input[name='userPhone']").val();
         var name = $("input[name='userName']").val();
         var address = $("input[name='userAddress']").val();
-        if (phone == null||phone=="") {
+        if (phone == null || phone == "") {
             //底部提示
             layerOpen("不留联系方式，小二没法找到你哦-_-!");
-            return ;
+            return;
         }
-        if (name == null||name=="") {
+        if (name == null || name == "") {
             //底部提示
             layerOpen("不留大名，小二没法找到你哦>_<!");
-            return ;
+            return;
         }
-        if (address == null||address=="") {
+        if (address == null || address == "") {
             //底部提示
             layerOpen("不留地址，小二没法找到你哦@_@!");
-            return ;
+            return;
         }
         layer.open({
             content: '<p class="label-success">联系人:' + name + '</p>' + '<p class="label-success">联系方式:' + phone + '</p>' + '<p class="label-success">联系地址:' + address + '</p>'

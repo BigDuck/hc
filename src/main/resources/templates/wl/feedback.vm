@@ -103,7 +103,7 @@
             $.ajax({
                 url: "/hc/feedback/sub",
                 dataType: "JSON",
-                data: {cardNum: cardNumField, userFb: userFbField},
+                data: {cardNum: cardNumField, userFb: userFbField,${_csrf.parameterName}:'${_csrf.token}'},
                 success: function (data) {
                     layer.close(index);
                     if (data) {

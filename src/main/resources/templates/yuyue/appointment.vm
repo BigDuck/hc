@@ -123,7 +123,7 @@
             url: "/hc/kaptch/check",
             dataType: "JSON",
             method: "POST",
-            data: {'code': code},
+            data: {'code': code,${_csrf.parameterName}:'${_csrf.token}'},
             success: function (data) {
                 if (data == "1") {
                     $("#yanzhengma").parent().removeClass("am-form-error am-form-icon am-form-feedback");
@@ -165,7 +165,7 @@
             url: "/hc/cards/check",
             method: "POST",
             dataType: "JSON",
-            data: {'code': code, 'cardNum': cardNum, 'cardPwd': cardPwd},
+            data: {'code': code, 'cardNum': cardNum, 'cardPwd': cardPwd,${_csrf.parameterName}:'${_csrf.token}'},
             success: function (msg) {
                 window.location.href="/hc/cards/msg?token="+msg['token']+"&cardNum="+msg['cardNum'];
                 layer.closeAll("loading");

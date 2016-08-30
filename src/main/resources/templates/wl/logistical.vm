@@ -85,7 +85,7 @@
         $.ajax({
             url: "/hc/logistical/order",
             dataType: "JSON",
-            data: {cardNum:$("input[name='cardNum']").val()},
+            data: {cardNum:$("input[name='cardNum']").val(),${_csrf.parameterName}:'${_csrf.token}'},
             method: "POST",
             success: function (data) {
 

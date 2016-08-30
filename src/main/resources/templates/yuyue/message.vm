@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <title>信息填写</title>
+</head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="renderer" content="webkit">
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="51homefun"/>
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileColor" content="#0e90d2">
+<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
+<link rel="stylesheet" href="/plugin/layer/need/layer.css">
+<style type="text/css">
+    .am-panel {
+        margin-top: 10px;
+    }
+</style>
+<body>
+<header data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="/hc/appointment" >
+            <i class="am-header-icon am-icon-chevron-left"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        <a href="#title-link">
+            <p class="am-animation-scale-up">信息填写</p>
+        </a>
+    </h1>
+</header>
+<div class="am-u-sm-12">
+    <div class="am-panel am-panel-success">
+        <div class="am-panel-hd">安家无忧社区服务平台</div>
+        <div class="am-panel-bd">
+            <form method="post" action="/hc/customer/submit" class="am-form am-form-horizontal">
+                <div class="am-form-group am-form-icon">
+                    <div class="am-u-sm-12 am-animation-slide-top">
+                        <input type="text" required name="userName" placeholder="联系人">
+                        <span class=""></span>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <div class=" am-u-sm-12 am-animation-slide-bottom">
+                        <input type="text" required name="userPhone" onblur="checkPhone()" placeholder="联系方式">
+                        <span class=""></span>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-12 am-animation-slide-bottom">
+                        <input type="text" required name="userAddress" placeholder="联系地址">
+                        <span class=""></span>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-12 am-animation-slide-bottom">
+                        <input type="text" name="userOther" placeholder="备注">
+                        <span class=""></span>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <input type="hidden" name="cardNum" value="${cardNum}"/>
+                    <input type="hidden" name="token" value="${newToken}"/>
+                    <input type="hidden" name="userWx" value="">
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-12">
+                        <button type="button" id="subBtn" class="am-btn am-btn-primary">提交</button>
+                        <button type="reset" class="am-btn am-btn-danger">重置</button>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="/plugin/layer/layer.js"></script>
+<script src="/js/wx.js"></script>
+<script type="text/javascript">
+    $("#subBtn").click(function () {
+        var phone = $("input[name='userPhone']").val();
+        var name = $("input[name='userName']").val();
+        var address = $("input[name='userAddress']").val();
+        if (phone == null||phone=="") {
+            //底部提示
+            layerOpen("不留联系方式，小二没法找到你哦-_-!");
+            return ;
+        }
+        if (name == null||name=="") {
+            //底部提示
+            layerOpen("不留大名，小二没法找到你哦>_<!");
+            return ;
+        }
+        if (address == null||address=="") {
+            //底部提示
+            layerOpen("不留地址，小二没法找到你哦@_@!");
+            return ;
+        }
+        layer.open({
+            content: '<p class="label-success">联系人:' + name + '</p>' + '<p class="label-success">联系方式:' + phone + '</p>' + '<p class="label-success">联系地址:' + address + '</p>'
+            , btn: ['就是你了', '手抖了']
+            , anim: 'up'
+            , yes: function (index) {
+                layer.close(index);
+                $("form").submit();
+            }, no: function (index) {
+                layer.close(index);
+            }
+        });
+    });
+    function layerOpen(msg) {
+        layer.open({
+            content: msg,
+            btn: ['明-_-白'],
+            skin: 'footer'
+        });
+    }
+    function checkPhone() {
+        var phone = $("input[name='userPhone'").val();
+        if ((/^1[3|4|5|7|8]\d{9}$/.test(phone))) {
+            $("input[name='userPhone'").parent().removeClass("am-form-error am-form-icon am-form-feedback");
+            $("input[name='userPhone'").next().removeClass("am-icon-times");
+            $("input[name='userPhone'").parent().addClass("am-form-success am-form-icon am-form-feedback");
+            $("input[name='userPhone'").next().addClass("am-icon-check");
+        } else {
+            $("input[name='userPhone'").removeClass("am-form-success am-form-icon am-form-feedback");
+            $("input[name='userPhone'").next().removeClass("am-icon-check");
+            $("input[name='userPhone'").parent().addClass("am-form-error am-form-icon am-form-feedback");
+            $("input[name='userPhone'").next().addClass("am-icon-times");
+        }
+    }
+</script>
+</html>

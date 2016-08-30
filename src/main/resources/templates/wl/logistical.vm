@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <title>提醒</title>
+</head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="renderer" content="webkit">
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="51homefun"/>
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileColor" content="#0e90d2">
+<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
+<link rel="stylesheet" href="/plugin/layer/need/layer.css">
+<style type="text/css">
+    .am-panel {
+        margin-top: 20px;
+    }
+</style>
+<body>
+<header data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="/hc" class="">
+            <i class="am-header-icon am-icon-home"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        <a href="#title-link">
+            <p class="am-animation-scale-up">订单信息</p>
+        </a>
+    </h1>
+</header>
+<div class="am-u-sm-12">
+    <div  class="am-panel am-panel-success am-animation-slide-bottom">
+        <div class="am-panel-hd">安家无忧社区服务平台</div>
+        <div class="am-panel-bd" style="text-align: center">
+            <form class="form-horizontal">
+                <div class="am-form-group">
+                    <input type="text" class="am-form-field" placeholder="输入卡券号" name="cardNum"/>
+                </div>
+                <div>
+                    <button class="am-btn am-btn-success" id="submiCardNum">查询</button>
+                    <input type="reset" class="am-btn am-btn-danger"/>
+                </div class="am-form-group">
+            </form>
+        </div>
+    </div>
+    <div id="mainPage" style="background-color: #0084c7;height: 5px" ></div>
+</div>
+</body>
+<script src="/plugin/layer/layer.js"></script>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<!--<![endif]-->
+
+
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="/js/wx.js"></script>
+<script type="text/javascript">
+    $("#submiCardNum").click(function () {
+
+        $("#mainPage div").remove();
+        var index = layer.open({type: 2, content: '努力加努力中...', shadeClose: false});
+
+        $.ajax({
+            url: "/hc/logistical/order",
+            dataType: "JSON",
+            data: {cardNum:$("input[name='cardNum']").val()},
+            method: "POST",
+            success: function (data) {
+
+                layer.close(index);
+                if (data == null) {
+                    layer.open({
+                        content: '暂无此卡券信息，请确认卡券无误!'
+                        ,btn: '我知道了'
+                    });
+
+                }
+                // 加载数据
+                var res = "<div class='am-panel am-panel-success am-animation-slide-bottom' ><div class = 'am-panel-hd' id = 'cardNum' ><p class = 'label-success' >" + data.cardNum + "</p></div>"
+                        + "<div class='am-panel-bd' > <div class = 'am-form-group'><label class= 'label' > 客户：</label >"
+                        + "<p>"+ data.userName + "</p></div><div class= 'am-form-group'><label class= 'label' > 订单状态：</label ><p id ='orderStatus'>"+ data.userOrder + "</p></div></div></div>";
+                $("#mainPage").append(res);
+            },
+            error: function (err) {
+                layer.close(index);
+                layer.open({
+                    title: [
+                        '提醒',
+                        'background-color: #FF4351; color:#fff;'
+                    ]
+                    ,content:   err['responseJSON'].errMsg
+                });
+
+            }
+        });
+
+        return false;
+    });
+</script>
+</html>

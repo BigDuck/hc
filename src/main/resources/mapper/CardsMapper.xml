@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.homefun.wpj.dao.CardsMapper" >
+  <resultMap id="BaseResultMap" type="com.homefun.wpj.damain.Cards" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="CARD_NUM" property="cardNum" jdbcType="VARCHAR" />
+    <result column="CARD_PWD" property="cardPwd" jdbcType="VARCHAR" />
+    <result column="IS_USED" property="isUsed" jdbcType="BIT" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

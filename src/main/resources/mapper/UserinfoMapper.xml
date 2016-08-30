@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.homefun.wpj.dao.UserinfoMapper">
+    <resultMap id="BaseResultMap" type="com.homefun.wpj.damain.Userinfo">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="USER_ID" property="userId" jdbcType="VARCHAR"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+        <result column="USER_LOGIN" property="userLogin" jdbcType="TIMESTAMP"/>
+        <result column="USER_PWD" property="userPwd" jdbcType="VARCHAR"/>
+        <result column="USER_LASTIP" property="userLastip" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selecyByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from userinfo WHERE USER_NAME =#{userName}
+    </select>
+</mapper>

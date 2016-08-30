@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homefun.wpj.dao.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.homefun.wpj.damain.Customer">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="USER_WX" jdbcType="VARCHAR" property="userWx" />
+    <result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+    <result column="USER_ADDRESS" jdbcType="VARCHAR" property="userAddress" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="USER_ORDER" jdbcType="VARCHAR" property="userOrder" />
+    <result column="CARD_NUM" jdbcType="VARCHAR" property="cardNum" />
+    <result column="USER_OTHER" jdbcType="VARCHAR" property="userOther" />
+    <result column="USER_FB" jdbcType="VARCHAR" property="userFb" />
+  </resultMap>
+
+</mapper>

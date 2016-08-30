@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <title>预约提货</title>
+</head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+<title>安家无忧</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="renderer" content="webkit">
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="51homefun"/>
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileColor" content="#0e90d2">
+<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
+<link rel="stylesheet" href="/plugin/layer/need/layer.css">
+<style type="text/css">
+    .am-panel {
+        margin-top: 10px;
+    }
+</style>
+<body>
+<header data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="/hc" >
+            <i class="am-header-icon am-icon-chevron-left"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        <a href="#title-link">
+            <p class="am-animation-scale-up">预约提货</p>
+        </a>
+    </h1>
+</header>
+<div class="am-u-sm-12">
+    <div class="am-panel am-panel-success">
+        <div class="am-panel-hd">安家无忧社区服务平台</div>
+        <div class="am-panel-bd">
+            <form id="checkForm" class="am-form am-form-horizontal">
+                <div class="am-form-group">
+                    <div class="am-u-sm-12 am-animation-slide-top">
+                        <input type="text" id="cardNum" required placeholder="输入卡券号码">
+                        <span class=""></span>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-12 am-animation-slide-bottom">
+                        <input type="text" id="cardPwd" required placeholder="输入卡券密码">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <div class="am-u-sm-8 am-animation-slide-right">
+                        <input type="text" onblur="check()" id="yanzhengma" class="am-form-field" placeholder="输入验证码">
+                        <span class=""></span>
+                    </div>
+                    <div class="am-u-sm-4 am-animation-slide-left">
+                        <img src="/hc/kaptch" id="yzm" name="yanzhengma" onclick="getYanzhengma()"
+                             class="am-img-thumbnail" style="max-width: 120%;height: 30px">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <div class="am-u-sm-6 ">
+                        <input type="submit" id="subBtn" class="am-btn am-btn-primary"/>
+                    </div>
+                    <div class="am-u-sm-6 ">
+                        <button type="reset" class="am-btn am-btn-danger">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <section class="am-panel am-panel-default">
+        <header class="am-panel-hd">
+            <h3 class="am-panel-title">用户须知</h3>
+        </header>
+        <div class="am-panel-bd">
+            <p class="am-serif am-animation-shake am-animation-delay-2"> 每个人都有一个死角， 自己走不出来，别人也闯不进去。
+                我把最深沉的秘密放在那里。
+                你不懂我，我不怪你。
+                每个人都有一道伤口， 或深或浅，盖上布，以为不存在</p>
+        </div>
+    </section>
+</div>
+</body>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="/plugin/layer/layer.js"></script>
+<script src="/js/wx.js"></script>
+<script type="text/javascript">
+    function getYanzhengma() {
+        $("#yzm").attr("src", "/hc/kaptch");
+    }
+    function check() {
+        var code = $("#yanzhengma").val();
+        $.ajax({
+            url: "/hc/kaptch/check",
+            dataType: "JSON",
+            method: "POST",
+            data: {'code': code},
+            success: function (data) {
+                if (data == "1") {
+                    $("#yanzhengma").parent().removeClass("am-form-error am-form-icon am-form-feedback");
+                    $("#yanzhengma").next().removeClass("am-icon-times");
+                    $("#yanzhengma").parent().addClass("am-form-success am-form-icon am-form-feedback");
+                    $("#yanzhengma").next().addClass("am-icon-check");
+                } else {
+                    $("#yanzhengma").parent().removeClass("am-form-success am-form-icon am-form-feedback");
+                    $("#yanzhengma").next().removeClass("am-icon-check");
+                    $("#yanzhengma").parent().addClass("am-form-error am-form-icon am-form-feedback");
+                    $("#yanzhengma").next().addClass("am-icon-times");
+                }
+            },
+            error: function (err) {
+                $("#yanzhengma").next().attr("value", "系统错误");
+
+            }
+        });
+    }
+    $("#checkForm").submit(function () {
+
+        var code = $("#yanzhengma").val();
+        var cardNum = $("#cardNum").val();
+        var cardPwd = $("#cardPwd").val();
+
+        if ($("#yanzhengma").parent().hasClass("am-form-error")) {
+            layer.open({
+                title: [
+                    '提醒',
+                    'background-color: #FF4351; color:#fff;'
+                ]
+                ,content: '验证码错误'
+            });
+
+            return false;
+        }
+     layer.open({ type:2 ,content:'努力加载中',shadeClose:false});
+        $.ajax({
+            url: "/hc/cards/check",
+            method: "POST",
+            dataType: "JSON",
+            data: {'code': code, 'cardNum': cardNum, 'cardPwd': cardPwd},
+            success: function (msg) {
+                window.location.href="/hc/cards/msg?token="+msg['token']+"&cardNum="+msg['cardNum'];
+                layer.closeAll("loading");
+            },
+            error: function (err) {
+                layer.closeAll("loading");
+                layer.open({
+                    title: [
+                        '提醒',
+                        'background-color: #FF4351; color:#fff;'
+                    ]
+                    ,content:   err['responseJSON'].errMsg
+                });
+
+            }
+        });
+        return false;
+    });
+
+</script>
+</html>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh_CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+    <title>安家无忧</title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+    <meta name="renderer" content="webkit">
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
+</head>
+<style>
+    .pan {
+        margin: auto;
+    }
+
+    div > p {
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+        margin-top: 30%;
+    }
+
+    #gongneng {
+        margin-bottom: 30%;
+        solid-color: white;
+    }
+</style>
+<body>
+<div>
+
+    <header data-am-widget="header"
+            class="am-header am-header-default">
+        <div class="am-header-left am-header-nav">
+            <a href="#left-link" class="">
+                <i class="am-header-icon am-icon-home"></i>
+            </a>
+        </div>
+        <h1 class="am-header-title">
+            <a href="#title-link">
+                <p class="am-animation-scale-up">安家无忧</p>
+            </a>
+        </h1>
+    </header>
+    <!--图片轮播-->
+    <div data-am-widget="slider" class="am-slider am-slider-c1" data-am-slider='{&quot;directionNav&quot;:false}' >
+        <ul class="am-slides">
+            <li>
+                <img src="/img/banner4.png">
+                <div class="am-slider-desc">一山一水寻一人,一颦一笑倾一心</div>
+
+            </li>
+            <li>
+                <img src="/img/banner1.png">
+                <div class="am-slider-desc">远方 有一个地方 那里种有我们的梦想</div>
+            </li>
+            <li>
+                <img src="/img/banner2.png">
+                <div class="am-slider-desc">某天 也许会相遇 相遇在这个好地方</div>
+            </li>
+            <li>
+                <img src="/img/banner3.png">
+                <div class="am-slider-desc">墙里秋千墙外道。墙外行人,墙里佳人笑。</div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="am-u-sm-12" style="height: 8px;background-color: white"></div>
+    <!-- 功能区-->
+    <div class="am-u-sm-12  gongneng">
+        <div id="appointment" class="am-u-sm-6 pan am-btn am-btn-warning am-animation-scale-up"
+             onclick="clickEvents('appointment')">
+            <p>预约提货</p>
+        </div>
+        <div id="logistical" onclick="clickEvents('logistical')"
+             class="am-u-sm-6 pan am-btn am-btn-primary am-animation-scale-up">
+            <p>进度查询</p>
+        </div>
+    ##        </div>
+    ##        <div class="am-u-sm-12 gongneng">
+        <div id="instruction" onclick="clickEvents('instruction')"
+             class="am-u-sm-6 pan am-btn am-btn-danger am-animation-scale-up ">
+            <p>产品介绍</p>
+        </div>
+        <div onclick="clickEvents('feedback')" id="feedback"
+             class="am-u-sm-6 pan am-btn am-btn-success am-animation-scale-up">
+            <p>我要反馈</p>
+        </div>
+    </div>
+</div>
+<!-- Navbar -->
+<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default am-no-layout"
+     id="">
+    <ul class="am-navbar-nav am-cf am-avg-sm-4">
+        <li>
+            <a href="tel:400-823-0592">
+                <span class="am-icon-phone" style="text-rendering: auto;"></span>
+                <span class="am-navbar-label">客服</span>
+            </a>
+        </li>
+        <li data-am-navbar-share>
+            <a href="#">
+                <span style="text-rendering: auto;" class=" am-icon-share-square-o"></span>
+                <span class="am-navbar-label">分享</span>
+            </a>
+        </li>
+        <li data-am-navbar-qrcode>
+            <a href="">
+                <span class="am-icon-qrcode" style="text-rendering: auto;"></span>
+                <span id="erwema" class="am-navbar-label">二维码</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://github.com/allmobilize/amazeui/issues">
+                <span class="am-icon-location-arrow"></span>
+                <span class="am-navbar-label">反馈</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<footer>
+    <div class="am-g am-g-fixed">
+    </div>
+</footer>
+<!--在这里编写你的代码-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="/js/wx.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    });
+    function clickEvents(clickType) {
+        $("#" + clickType).addClass("am-animation-reverse am-animation-scale-down");
+        location.href = "/hc/"+clickType;
+    }
+
+</script>
+</body>
+</html>

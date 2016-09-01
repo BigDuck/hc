@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 
 import javax.sql.DataSource;
 
+import static org.apache.coyote.http11.Constants.a;
+
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -22,7 +24,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("dataSource")
     private DataSource dataSource; //code2
-
+    @Autowired
+    private MyAuthenticationProvider myAuthenticationProvider;
+    @Autowired
+    private CustomAuthenticationDetailsSource customAuthenticationDetailsSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 //指定登录页是”/login”
                 .loginPage("/admin/login")
+                .authenticationDetailsSource(customAuthenticationDetailsSource)
+                // 这个是表单要填写的action的地址
                 .permitAll()
                 //登录成功后可使用loginSuccessHandler()存储用户信息，可选。
                 .successHandler(loginSuccessHandler())//code3
@@ -57,17 +64,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()
                 .tokenValiditySeconds(1209600)
                 //指定记住登录信息所使用的数据源
-                .tokenRepository(tokenRepository());//code4
+                .tokenRepository(tokenRepository())
+
+        ;//code4
 
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 //指定密码加密所使用的加密器为passwordEncoder()
-//需要将密码加密后写入数据库 //code13
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());//code5
+//需要将密码加密后写入数据库
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
 //不删除凭据，以便记住用户
         auth.eraseCredentials(false);
+        auth.authenticationProvider(myAuthenticationProvider);
     }
 
     @Bean

@@ -12,9 +12,9 @@
     <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
     <link rel="stylesheet" href="/css/amazeui.min.css"/>
     <link rel="stylesheet" href="/css/admin.css">
-    <link rel="stylesheet" href="/css/amazeui.jqgrid.min.css">
-    <link rel="stylesheet" href="http://www.guriddo.net/demo/css/trirand/ui.jqgrid-bootstrap.css">
     <link rel="stylesheet" href="/plugin/layerweb/skin/layer.css">
+    <link rel="stylesheet" href="/plugin/bootstraptable/bootstrap-table.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -60,15 +60,82 @@
     <!-- sidebar end -->
 ## Jqgrid 开始
     #if(!${myTemplate})
-        <div class=" admin-content">
+    <div class=" admin-content">
 
-            <div class="am-panel am-panel-success">
-                <div class="am-panel-hd">面板标题</div>
-                <div class="am-panel-bd">
-                    <table id="jqGrid"></table>
-                </div>
-                <div class="am-panel-footer">
-                    <div id="jqGridPager"></div>
+        <div class="am-panel am-panel-success">
+            <div id="toolbar">
+                <select class="form-control">
+                    <option value="basic">导出本页</option>
+                    <option value="all">导出全部</option>
+                    <option value="selected">导出选中</option>
+                </select>
+            </div>
+            <div class="am-panel-bd">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseOne">
+                                    订单查询
+                                </a>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+
+                            <div class="panel-body">
+                                <form id="formSearch" class="form-horizontal">
+                                    <div class="form-group" style="margin-top:15px">
+                                        <label class="control-label col-sm-1"
+                                               for="txt_search_departmentname">查询条件</label>
+                                        <div class="col-sm-2">
+                                            <select id="selectCon" class="form-control">
+                                                <option value="0">选择查询条件</option>
+                                                <option value="1">卡券号</option>
+                                                <option value="2">用户名</option>
+                                                <option value="3">联系方式</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2"><input id="params" name="params" class="form-control"
+                                                                     placeholder="输入查询内容"
+                                                                     type="text"/></div>
+                                        <label class="control-label col-sm-1" for="txt_search_statu">时间</label>
+                                        <div class="col-sm-3">
+                                            <div class="input-daterange input-group" id="datepicker">
+                                                <input type="text" id="startTime" class="form-control" name="startTime"
+                                                       placeholder="选择开始时间"/>
+                                                <span class="input-group-addon">到</span>
+                                                <input type="text" class=" form-control" id="endTime" name="endTime"
+                                                       placeholder="选择结束时间"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <select id="userTypeId" class="btn btn-default">
+                                                <option value="-1">只看状态</option>
+                                                <option value="0">待审核</option>
+                                                <option value="1">审核通过</option>
+                                                <option value="2">订单取消</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2" style="text-align:left;">
+                                            <div class="row">
+                                                <button type="button" style="margin-left:50px" id="btn_query"
+                                                        class="btn btn-primary"
+                                                        onclick="searchTable()">查询
+                                                </button>
+                                                <input type="reset" class="btn btn-danger" value="重置"/>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table id="table">
+                    </table>
+
+
                 </div>
             </div>
 
@@ -84,15 +151,15 @@
     <!-- content start -->
     <footer class="admin-content-footer">
         <hr>
-        <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+        <p class="am-padding-left">© 2016 AllMobilize, Inc. Licensed under MIT license.</p>
     </footer>
     <!-- content end -->
 
 </div>
 
-<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
-   data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
-
+    <a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+       data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+</body>
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
@@ -102,58 +169,123 @@
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="/js/jquery-2.1.1.min.js"></script>
 <!--<![endif]-->
-<script src="http://www.guriddo.net/demo/js/trirand/jquery.jqGrid.min.js"></script>
-<script src="http://www.guriddo.net/demo/js/trirand/i18n/grid.locale-cn.js"></script>
-<script src="/js/amazeui.min.js"></script>
-<script src="/js/amazeui.jqgrid.min.js"></script>
-<script src="/plugin/layerweb/layer.js"></script>
-<script type="text/javascript">
-    $(function () {
 
-        $("#jqGrid").jqGrid({
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="/plugin/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugin/bootstraptable/bootstrap-table-export.js" charset="utf-8"></script>
+<script src="/plugin/bootstraptable/tableExport.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="/plugin/bootstraptable/bootstrap-table-zh-CN.min.js"></script>
+
+<script src="/js/amazeui.min.js"></script>
+<script src="/plugin/layerweb/layer.js"></script>
+<script src="/plugin/datapicker/bootstrap-datepicker.min.js"></script>
+<script src="/plugin/datapicker/bootstrap-datepicker.zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+    var $table =
+    $('#table');
+    $('#datepicker').datepicker({
+        language: "zh-CN",
+        format: 'yyyy-mm-dd'
+    });
+
+    $(function () {
+        function detailFormatter(value, row, index) {
+            var detail = "<input type='button' class='btn btn-success' onclick='serviceDetail(" + "\"" + row.userId + "\"" + ")'  value='服务详情'/> "
+
+            return detail;
+        }
+
+        $('#table').bootstrapTable({
             url: '/admin/cus/list',
-            mtype: "GET",
-            styleUI: 'AmazeUI',
-            datatype: "json",
-            autowidth: true,//自动宽
-            shrinkToFit: true,
-            colNames: ['订单号', '卡券号', '客户名', '订单状态', '联系方式', '下单时间', '操作'],
-            colModel: [
-                {label: 'userId', name: 'userId', key: true, width: "20%", hidden: true},
-                {label: 'cardNum', name: 'cardNum', autowidth: true},
-                {label: 'userName', name: 'userName', autowidth: true},
-                {label: 'userOrder', name: 'userOrder', autowidth: true},
-                {label: 'userPhone', name: 'userPhone', autowidth: true},
+            dataField: "rows",
+            columns: [
                 {
-                    label: 'userTime',
-                    name: 'userTime',
-                    autowidth: true
+                    field: 'state',
+                    checkbox: true,
+                    align: 'center',
+                    valign: 'middle'
                 },
-                {name: "edit", index: "edit", autowidth: true}
+                {
+                    field: 'cardNum',
+                    title: '卡券号',
+                },
+                {
+                    field: 'userName',
+                    title: '用户名',
+                }, {
+                    field: 'userPhone',
+                    title: '联系方式',
+                }, {
+                    field: 'userAddress',
+                    title: '送货地址',
+                }, {
+                    field: 'userOrder',
+                    title: '订单状态',
+                }, {
+                    field: 'userTime',
+                    title: '下单时间',
+                }
 
             ],
-            toolbar: [true, "top"],
-            rownumbers: true,
-            viewrecords: true,
-            height: "100%",
-            caption: "详情<button>结果</button>",
-            rowNum: 10,
-            pager: "#jqGridPager",
-            gridComplete: function () {         // 数据加载完成后 添加 采购按钮
-                var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
-                for (var i = 0; i < ids.length; i++) {
-                    var id = ids[i];
-                    var editBtn = "<input type='button' class='am-btn am-btn-success' " + "onclick=" + "showDetail('" + id + "')" + " value='详情'/>";
-                    jQuery("#jqGrid").jqGrid('setRowData', ids[i], {edit: editBtn});
-                }
-            },
+            pagination: true,//显示分页
+            showRefresh: true,//显示刷新按钮
+            showColumns: true,//显示勾选列显示按钮
+            striped: true,  //表格显示条纹
+            detailView: true,
+            pageList: [10, 25, 50, 100, 'ALL'],
+            showPaginationSwitch: true,
+            minimumCountColumns: 2,
+            cache: false,
+            switchable: true,
+            showExport: true,
+            idField: 'id',
+            uniqueId: "id",
+            sidePagination: "server",
+            exportDataType: "basic",
+            toolbar: "#exampleTableEventsToolbar",//工具按钮用哪个容器
+            detailFormatter: detailFormatter,
+            rowStyle: function (row, index) {
+                var classes = ['active', 'success', 'info', 'warning', 'danger'];
+                var res = index % 4;
+                return {
+                    classes: classes[res]
+                };
+            }
+
         });
-        $(".ui-jqgrid .ui-jqgrid-htable .ui-th-div").attr("style", "height:auto");
     });
-    function showDetail(id) {
-        location.href = "/admin/cus/one?userId=" + id;
+    function serviceDetail(id) {
     }
+    function searchTable() {
+        console.log("点击搜索");
+        if ($("#selectCon").val() == "0" && $("#params").val() != "") {
+            layer.tips("选我选我", "#selectCon");
+            layer.alert("请选择查询条件");
+            return false;
+        }
+        var dataUrl = "/admin/cus/list"
+        /**
+         * 重构查询怎么会这么傻的查询啊啊啊啊
+         */
+        $('#table').bootstrapTable('refresh', {
+            url: dataUrl,
+            query: {startTime: $("#startTime").val(),
+                startTime: $("startTime").val(),
+                params:$("#params").val(),
+                searchCondition:$("#selectCon").val(),
+                userTypeId:$("#userTypeId").val()
+            }
+        });
+    }
+
 </script>
 
-</body>
+<link rel="stylesheet" href="/plugin/datapicker/bootstrap-datepicker.css">
+
 </html>

@@ -6,48 +6,38 @@ import java.util.List;
  * Name：JqGridResult
  * Time：2016/9/2 10:07
  * author：WPJ587
- * description：JqGrid 前端插件的响应结果
+ * description：BTResult 前端插件的响应结果
  **/
 
-public class JqGridResult<T> extends BaseDamain {
+public class BTResult<T> extends BaseDamain {
     private static final long serialVersionUID = 4384948086998510887L;
-    /**
-     * 查询出的记录数
-     */
-    private long records;
+
     /**
      * 当前页
      */
     private int page;
     /**
-     * 总页数
+     * 总记录
 
      */
-    private  int total;
+    private  long total;
     /**
      *
      */
     private List<T> rows;
 
-    public JqGridResult(long records, int page, int total, List<T> rows) {
-        this.records = records;
+    public BTResult(int page, int total, List<T> rows) {
         this.page = page;
         this.total = total;
         this.rows = rows;
     }
 
-    public JqGridResult() {
+    public BTResult() {
     }
 
 
 
-    public long getRecords() {
-        return records;
-    }
 
-    public void setRecords(long records) {
-        this.records = records;
-    }
 
     public int getPage() {
         return page;
@@ -57,11 +47,11 @@ public class JqGridResult<T> extends BaseDamain {
         this.page = page;
     }
 
-    public int getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 

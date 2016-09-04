@@ -20,4 +20,8 @@ public class Constant {
             put(2, "订单取消");
         }
     };
+
+    public static void main(String[] args) {
+        System.out.println(Constant.ORDER_STATE.get(0));
+    }
 }

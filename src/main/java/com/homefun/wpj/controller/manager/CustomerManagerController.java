@@ -1,7 +1,7 @@
 package com.homefun.wpj.controller.manager;
 
+import com.homefun.wpj.damain.BTRequestParams;
 import com.homefun.wpj.damain.Customer;
-import com.homefun.wpj.damain.JqGridParams;
 import com.homefun.wpj.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -29,14 +29,14 @@ public class CustomerManagerController extends BaseManagerController {
 
     @RequestMapping("/list")
     @ResponseBody
-    public Object getData(JqGridParams jqGridParams) {
+    public Object getData(BTRequestParams btRequestParams) {
 
-        return customerService.findByJqParams(jqGridParams);
+        return customerService.findByBTRequestParams(btRequestParams);
     }
     @InitBinder
     protected void initBinder(HttpServletRequest request,
                               ServletRequestDataBinder binder) throws Exception {
-        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         CustomDateEditor dateEditor = new CustomDateEditor(fmt, true);
         binder.registerCustomEditor(Date.class, dateEditor);
     }

@@ -2,15 +2,13 @@ package com.homefun.wpj.serviceImpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.homefun.wpj.damain.Cards;
-import com.homefun.wpj.damain.Customer;
-import com.homefun.wpj.damain.JqGridParams;
-import com.homefun.wpj.damain.JqGridResult;
+import com.homefun.wpj.damain.*;
 import com.homefun.wpj.dao.CustomerMapper;
 import com.homefun.wpj.exception.CheckException;
 import com.homefun.wpj.service.BaseService;
 import com.homefun.wpj.service.CardService;
 import com.homefun.wpj.service.CustomerService;
+import com.homefun.wpj.util.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,28 +79,46 @@ public class CustomerServiceImpl extends BaseService<Customer> implements Custom
     /**
      * 根据前端参数进行数据的查询
      *
-     * @param jqGridParams
+     * @param btRequestParams
      * @return
      */
     @Override
-    public JqGridResult<Customer> findByJqParams(JqGridParams jqGridParams) {
+    public BTResult<Customer> findByBTRequestParams(BTRequestParams btRequestParams) {
         // 不考虑查询
-        if (jqGridParams == null) {
+        if (btRequestParams == null) {
             return null;
         }
         Example example = new Example(Customer.class);
         Example.Criteria criteria = example.createCriteria();
-        if (jqGridParams.is_search()) {
-            // 加入是搜索的话再说吧
-        } else {
-            PageHelper.startPage(jqGridParams.getPage(), jqGridParams.getRows(), true);
+        if (btRequestParams.getSearchCondition() != 0) {
+            switch (btRequestParams.getSearchCondition()) {
+                case 1: // 卡券号查询
+                    criteria.andEqualTo("cardNum", btRequestParams.getParams());
+                    break;
+                case 2: // 用户名查询
+                    criteria.andLike("userName", "%" + btRequestParams.getParams() + "%");
+                    break;
+                case 3:  // 用户手机号码进行查询
+                    criteria.andLike("userPhone", "%" + btRequestParams.getParams() + "%");
+                    break;
+            }
         }
-        JqGridResult<Customer> result = new JqGridResult<>();
+        if (btRequestParams.isPaging()) {
+            int page = btRequestParams.getOffset() / btRequestParams.getLimit() + 1;
+            PageHelper.startPage(page, btRequestParams.getLimit(), true);
+        }
+        if (btRequestParams.getStartTime() != null && btRequestParams.getEndTime() != null) {
+            criteria.andBetween("userTime", btRequestParams.getStartTime(), btRequestParams.getEndTime());
+        }
+        if (btRequestParams.getUserTypeId() != -1) {
+
+            criteria.andEqualTo("userOrder", btRequestParams.getUserTypeId()+"_"+Constant.ORDER_STATE.get(btRequestParams.getUserTypeId()));
+        }
+        BTResult<Customer> result = new BTResult<>();
         List<Customer> res = customerMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo<>(res);
-        result.setTotal(pageInfo.getPages());
-        result.setPage(pageInfo.getPageNum());// 当前页
-        result.setRows(pageInfo.getList());
+        result.setTotal(pageInfo.getTotal());
+        result.setRows(res);
         return result;
     }
 

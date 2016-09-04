@@ -1,6 +1,12 @@
 package com.homefun.wpj.damain;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.homefun.wpj.conf.MyDateSerializer;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.util.Date;
 
 public class Customer extends BaseDamain {
     private static final long serialVersionUID = 3403238912813797374L;
@@ -9,6 +15,7 @@ public class Customer extends BaseDamain {
      */
     @Column(name = "USER_ID")
     @GeneratedValue(generator = "UUID")
+    @Id
     private String userId;
 
     /**
@@ -36,7 +43,7 @@ public class Customer extends BaseDamain {
      * 订单信息
      */
     @Column(name = "USER_ORDER")
-    private String userOrder="0_待审核";
+    private String userOrder = "0_待审核";
 
     /**
      * 客户使用的卡券号码
@@ -55,6 +62,12 @@ public class Customer extends BaseDamain {
      */
     @Column(name = "USER_FB")
     private String userFb;
+    /**
+     * 下单时间
+     */
+    @Column(name = "ORDER_TIME")
+    @JsonSerialize(using = MyDateSerializer.class) // 返回的时间格式
+    private Date userTime;
 
     /**
      * 获取用户id
@@ -212,6 +225,14 @@ public class Customer extends BaseDamain {
      */
     public void setUserFb(String userFb) {
         this.userFb = userFb;
+    }
+
+    public Date getUserTime() {
+        return userTime;
+    }
+
+    public void setUserTime(Date userTime) {
+        this.userTime = userTime;
     }
 
     @Override

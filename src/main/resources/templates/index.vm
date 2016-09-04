@@ -67,7 +67,7 @@
     <div data-am-widget="slider" class="am-slider am-slider-c1" data-am-slider='{&quot;directionNav&quot;:false}' >
         <ul class="am-slides">
             <li>
-                <img src="/img/banner4.png">
+                <img src="/img/banner2.png">
                 <div class="am-slider-desc">一山一水寻一人,一颦一笑倾一心</div>
 
             </li>
@@ -76,12 +76,12 @@
                 <div class="am-slider-desc">远方 有一个地方 那里种有我们的梦想</div>
             </li>
             <li>
-                <img src="/img/banner2.png">
+                <img src="/img/banner3.png">
                 <div class="am-slider-desc">某天 也许会相遇 相遇在这个好地方</div>
             </li>
             <li>
-                <img src="/img/banner3.png">
-                <div class="am-slider-desc">墙里秋千墙外道。墙外行人,墙里佳人笑。</div>
+                <img src="/img/banner4.png">
+                <div class="am-slider-desc">不到庐山辜负目，不食螃蟹辜负腹</div>
             </li>
 
         </ul>
@@ -99,7 +99,7 @@
         </div>
     ##        </div>
     ##        <div class="am-u-sm-12 gongneng">
-        <div id="instruction" onclick="clickEvents('instruction')"
+        <div id="instruction" onclick="instruction()"
              class="am-u-sm-6 pan am-btn am-btn-danger am-animation-scale-up ">
             <p>产品介绍</p>
         </div>
@@ -114,7 +114,7 @@
      id="">
     <ul class="am-navbar-nav am-cf am-avg-sm-4">
         <li>
-            <a href="tel:400-823-0592">
+            <a href="tel:400-823-1955">
                 <span class="am-icon-phone" style="text-rendering: auto;"></span>
                 <span class="am-navbar-label">客服</span>
             </a>
@@ -132,9 +132,9 @@
             </a>
         </li>
         <li>
-            <a href="https://github.com/allmobilize/amazeui/issues">
+            <a href="http://ucmp.sf-express.com/weiwap/waybill/index-query.html">
                 <span class="am-icon-location-arrow"></span>
-                <span class="am-navbar-label">反馈</span>
+                <span class="am-navbar-label">物流</span>
             </a>
         </li>
     </ul>
@@ -156,9 +156,9 @@
 <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
 <script src="/js/wx.js"></script>
 <script type="text/javascript">
-    $(function () {
-
-    });
+    function instruction() {
+        location.href="http://mp.weixin.qq.com/s?__biz=MzIwOTU1MDc3NQ==&mid=100000003&idx=1&sn=8c962b7098fb636eb0a59469bed3b6c0&scene=18#wechat_redirect";
+    }
     function clickEvents(clickType) {
         $("#" + clickType).addClass("am-animation-reverse am-animation-scale-down");
         location.href = "/hc/"+clickType;

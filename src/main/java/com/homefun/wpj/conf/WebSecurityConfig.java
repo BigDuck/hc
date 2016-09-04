@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import static org.apache.coyote.http11.Constants.a;

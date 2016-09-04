@@ -1,7 +1,11 @@
 package com.homefun.wpj.serviceImpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.homefun.wpj.damain.Cards;
 import com.homefun.wpj.damain.Customer;
+import com.homefun.wpj.damain.JqGridParams;
+import com.homefun.wpj.damain.JqGridResult;
 import com.homefun.wpj.dao.CustomerMapper;
 import com.homefun.wpj.exception.CheckException;
 import com.homefun.wpj.service.BaseService;
@@ -11,9 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Name：CustomerServiceImpl
@@ -41,11 +47,11 @@ public class CustomerServiceImpl extends BaseService<Customer> implements Custom
             }
         }
         // 验证表单是否被多次提交了
-     Cards cards= cardService.selectByKey(customer.getCardNum());
-        if(cards==null){
-            throw new CheckException("403","非法提交");
-        }else if (cards.getIsUsed()==true){
-            throw new CheckException("403","请勿重复提交哦><!!!");
+        Cards cards = cardService.selectByKey(customer.getCardNum());
+        if (cards == null) {
+            throw new CheckException("403", "非法提交");
+        } else if (cards.getIsUsed() == true) {
+            throw new CheckException("403", "请勿重复提交哦><!!!");
         }
         // 验证完后进行数据库的操作  增加用户的提交信息
         int res = customerMapper.insert(customer);
@@ -70,5 +76,47 @@ public class CustomerServiceImpl extends BaseService<Customer> implements Custom
     public Customer findCustomerByCardNum(String cardNum) {
 
         return null;
+    }
+
+    /**
+     * 根据前端参数进行数据的查询
+     *
+     * @param jqGridParams
+     * @return
+     */
+    @Override
+    public JqGridResult<Customer> findByJqParams(JqGridParams jqGridParams) {
+        // 不考虑查询
+        if (jqGridParams == null) {
+            return null;
+        }
+        Example example = new Example(Customer.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (jqGridParams.is_search()) {
+            // 加入是搜索的话再说吧
+        } else {
+            PageHelper.startPage(jqGridParams.getPage(), jqGridParams.getRows(), true);
+        }
+        JqGridResult<Customer> result = new JqGridResult<>();
+        List<Customer> res = customerMapper.selectByExample(example);
+        PageInfo pageInfo = new PageInfo<>(res);
+        result.setTotal(pageInfo.getPages());
+        result.setPage(pageInfo.getPageNum());// 当前页
+        result.setRows(pageInfo.getList());
+        return result;
+    }
+
+    /**
+     * 通过用户id号获取用户信息
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public Customer findByUser(String userId) {
+        if (userId==null){
+            return  null;
+        }
+        return customerMapper.selectByPrimaryKey(userId);
     }
 }

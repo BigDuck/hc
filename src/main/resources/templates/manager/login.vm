@@ -51,11 +51,11 @@
             </div>
             <div class="am-form-group">
                 <div class="am-u-sm-8 am-animation-slide-right">
-                    <input type="text" onblur="check()" id="yanzhengma" class="am-form-field" placeholder="输入验证码">
+                    <input type="text" onblur="check()" name="captcha" id="yanzhengma" class="am-form-field" placeholder="输入验证码">
                     <span class=""></span>
                 </div>
                 <div class="am-u-sm-4 am-animation-slide-left">
-                    <img src="/hc/kaptch" id="yzm" name="yanzhengma" onclick="getYanzhengma()"
+                    <img src="/hc/kaptch" id="yzm" name="captcha" onclick="getYanzhengma()"
                          class="am-img-thumbnail">
                 </div>
             </div>
@@ -92,7 +92,7 @@
             url: "/hc/kaptch/check",
             dataType: "JSON",
             method: "POST",
-            data: {'captcha': code,${_csrf.parameterName}:'${_csrf.token}'},
+            data: {'code': code,${_csrf.parameterName}:'${_csrf.token}'},
         success: function (data) {
             if (data == "1") {
                 $("#yanzhengma").parent().removeClass("am-form-error am-form-icon am-form-feedback");

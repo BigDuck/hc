@@ -1,0 +1,131 @@
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <strong class="am-text-primary am-text-lg"><a href="/admin/main" >列表</a></strong> /
+                <small>审核</small>
+            </div>
+        </div>
+        <hr>
+
+        <div class="am-tabs am-margin">
+            <ul class="am-tabs-nav am-nav am-nav-tabs">
+                <li class="am-active"><a href="#tab1">基本信息</a></li>
+            </ul>
+            <div class="am-tabs-bd">
+                <div class="am-tab-panel am-fade am-in am-active">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">用户名:</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <p name="userName">$!{customer.userName}</p>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">联系方式</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <p name="userPhone">$!{customer.userPhone}</p>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">订单状态</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+
+                            <select name="userOrder">
+                                <option value="0_待审核"
+                                    #if($!{customer.userOrder}=="0_待审核")
+                                        selected
+                                    #end
+                                >待审核
+                                </option>
+                                <option value="1_审核通过"
+                                    #if($!{customer.userOrder}=="1_审核通过")
+                                        selected
+                                    #end
+                                >审核通过
+                                </option>
+                                <option value="2_订单取消"
+                                    #if($!{customer.userOrder}=="2_订单取消")
+                                        selected
+                                    #end
+                                >订单取消
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">送货地址</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <p name="userAddress">$!{customer.userAddress}</p>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">卡券号</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <p name="cardNum">$!{customer.cardNum}</p>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">备注</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <input name="userOther" value="$!{customer.userOther}" type="text"/>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">反馈</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <p name="userFb">$!{customer.userFb}</p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="userId" value="$!{customer.userId}">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="am-margin">
+            <button id="saveBtn" type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>
+        </div>
+    </div>
+
+    <footer class="admin-content-footer">
+        <hr>
+        <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+    </footer>
+</div>
+#parse("common/js.vm")
+<script type="text/javascript">
+    $("#saveBtn").click(function () {
+        layer.load(1);
+        $.ajax({
+            url: "/admin/cus/update",
+            dataType: "JSON",
+            method: "POST",
+            data: {
+                userOrder: $("select[name='userOrder']").val(),
+                userOther: $("input[name='userOther']").val(),
+                userId: $("#userId").val(),
+        ${_csrf.parameterName}
+        :
+        '${_csrf.token}'
+    },
+        success: function (data) {
+            layer.closeAll("loading");
+            if (data == "1") {
+                layer.msg("更新成功");
+            } else {
+                layer.msg("发生错误");
+
+            }
+        }
+        ,
+        error: function (err) {
+            layer.closeAll("loading");
+            console.log(err);
+            layer.msg("发生错误");
+        }
+    })
+        ;
+
+    });
+</script>

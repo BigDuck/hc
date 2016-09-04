@@ -61,8 +61,11 @@
         <!--<table tableName="EMPLOYEES">-->
         <!--<generatedKey column="ID" sqlStatement="Mysql" identity="true"/>-->
         <!--</table>-->
-        <table tableName="userinfo">
-            <generatedKey column="USER_ID" sqlStatement="Mysql" identity="true"/>
+        <table tableName="s_role">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="s_user">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
 
         <!--<table tableName="tb_listmain">-->

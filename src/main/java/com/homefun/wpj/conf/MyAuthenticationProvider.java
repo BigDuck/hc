@@ -28,7 +28,9 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
+
         SecurityUser userDetails= (SecurityUser) customUserDetailsService.loadUserByUsername(username);
+
         if(userDetails == null){
             throw new BadCredentialsException("Username not found.");
         }
